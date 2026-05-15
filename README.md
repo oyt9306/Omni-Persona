@@ -47,13 +47,11 @@ Each persona is a node `(v, a, t)` (image, audio, text). Personalization becomes
 
 ## 📝 Cite
 
-> 📌 Placeholder — will be updated upon arXiv release.
-
 ```bibtex
-@article{oh2026omnipersona,
-  title   = {Omni-Persona: Systematic Benchmarking and Improving Omnimodal Personalization},
-  author  = {Oh, Yeongtak and Lee, Dongwook and Park, Sangkwon and Kim, Heeseung and Yoon, Sungroh},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2026}
+@article{oh2026omni,
+  title={Omni-Persona: Systematic Benchmarking and Improving Omnimodal Personalization},
+  author={Oh, Yeongtak and Lee, Dongwook and Park, Sangkwon and Kim, Heeseung and Yoon, Sungroh},
+  journal={arXiv preprint arXiv:2605.09996},
+  year={2026}
 }
 ```
