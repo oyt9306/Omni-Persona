@@ -13,7 +13,7 @@ This repository contains the **evaluation code** for the v2.2 benchmark — ever
 reproduce the paper's main table — and the **RLVR training** data and recipe.
 
 - **750 items** · 391 answerable / 359 unanswerable · 4 task groups · 18 fine-grained tasks
-- Metrics: guarded **Ans**, count-weighted **Cal**, **1-FA**, **TA**
+- Metrics: guarded **Ans**, item-weighted **Cal**, **1-FA**, **TA**
 - Dataset: [`Yeongtak/Omni-Persona-Benchmark`](https://huggingface.co/datasets/Yeongtak/Omni-Persona-Benchmark)
   — benchmark annotations and assets under `assets/`, RLVR training assets under `training_assets/`
 - Models: [3B RLVR](https://huggingface.co/Yeongtak/Qwen2.5-Omni-3B-Omni-Persona-RLVR) ·
@@ -78,7 +78,7 @@ correct only if the model abstains.
 | Qwen2.5-Omni-7B (base) | 38.6 | 30.9 | 82.1 | 22.6 |
 | Qwen2.5-Omni-7B + RLVR | 47.8 | 28.4 | 98.0 | 7.2 |
 
-`Ans` = accuracy on the 391 answerable items · `Cal` = count-weighted calibrated accuracy over
+`Ans` = accuracy on the 391 answerable items · `Cal` = item-weighted calibrated accuracy over
 all 750 · `1-FA` = attempt rate on answerable items · `TA` = true-abstention rate on the 359
 unanswerable items.
 
@@ -144,7 +144,7 @@ Omni-Persona v2.2 — guarded metrics   model: qwen7b-base
   Main table row
   ----------------------------------------------
       Ans    Cal   1-FA     TA    Avg
-     38.6   30.9   82.1   22.6   52.4
+     38.6   30.9   82.1   22.6   52.3
 
   Per scenario
   ----------------------------------------------
