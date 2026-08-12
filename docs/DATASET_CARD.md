@@ -1,9 +1,4 @@
 ---
-license: other
-license_name: omni-persona-research-use
-license_link: LICENSE
-language:
-  - en
 task_categories:
   - question-answering
   - visual-question-answering
@@ -28,11 +23,6 @@ configs:
 ---
 
 # Omni-Persona Benchmark (v2.2)
-
-> **Version note.** This card supersedes the v1-era card. The evaluation protocol changed:
-> **v2.2 scores an answerable item correct only if the model does NOT abstain AND the judge
-> returns `CORRECT`.** Any number produced with the older "judge verdict only" rule is not
-> comparable to the numbers below. See [Evaluation protocol](#evaluation-protocol).
 
 Omni-Persona is a held-out **test set** for **omnimodal personalization**: given four
 interleaved image + audio + text memory contexts about four different people, the model must
@@ -207,17 +197,6 @@ Canonical abstention string (identical for all 750 items):
 I cannot determine that from the provided context.
 ```
 
-### Fields removed from the release
-
-The internal file also carries a `source_metadata_min` block, **dropped in the released JSONL**.
-It held (a) `labels` — a duplicate of `target_concept_id`, (b) `audio_qa` — a leftover
-multiple-choice speaker-ID question from an earlier benchmark version that no current task uses,
-and (c) `gender` — per-person gender predictions used only to build gender-matched audio
-distractors. No file in the released evaluation pipeline reads any of it, and (c) is a
-demographic annotation of real individuals. The distractor-construction record is still
-available in aggregate via `gender_cache.json` and `lsd_metadata.jsonl` for anyone auditing how
-the set was built. Every other field is shipped verbatim.
-
 ---
 
 ## Evaluation protocol
@@ -292,19 +271,6 @@ scripts/run_eval.sh   Qwen/Qwen2.5-Omni-7B qwen7b   # full 750, prints the main-
 `run_eval.sh` serves the model with vLLM, runs inference, judges, scores, and tears the server
 down. Results land in `results/<RUN_NAME>/`. See the repository README for the full env-var list.
 
-## Reference results (guarded, full 750)
-
-| Model | Ans | Cal | 1-FA | TA |
-|---|---:|---:|---:|---:|
-| Qwen2.5-Omni-3B (base) | 34.0 | 36.7 | 74.9 | 39.6 |
-| Qwen2.5-Omni-3B + RLVR (v20) | 40.9 | 34.1 | 84.7 | 26.7 |
-| Qwen2.5-Omni-7B (base) | 38.6 | 30.9 | 82.1 | 22.6 |
-| Qwen2.5-Omni-7B + RLVR (v20) | 47.8 | 28.4 | 98.0 | 7.2 |
-
-Read the columns together, not separately: RLVR raises `Ans` and `1-FA` substantially while
-`TA` and `Cal` fall. Higher answerable accuracy here is bought with a collapse in abstention,
-which is exactly the trade-off the benchmark is built to expose.
-
 ---
 
 ## Source data and construction
@@ -328,32 +294,6 @@ which is exactly the trade-off the benchmark is built to expose.
 Zero-shot evaluation of omnimodal (image + audio + text) assistants on grounded personalization
 with calibrated abstention. **This is a held-out test set** — it is not a training corpus, and
 fine-tuning on it invalidates any reported number.
-
-## Limitations and risks
-
-- **Judge dependence.** `Ans` and `Cal` are defined against `gpt-5.4-mini` as judge. Swapping
-  the judge model changes the numbers and breaks comparability with the reference table.
-  `1-FA`/`TA` are judge-free and stay comparable.
-- **Keyword-based abstention.** `is_abstain` is a fixed substring list. A model that abstains in
-  unusual phrasing is scored as attempting; a model that quotes one of the phrases while
-  answering is scored as abstaining. The list is frozen precisely so the failure mode is
-  identical across models.
-- **Prompt-sensitivity.** The system prompt actively discourages abstention ("use it only as a
-  last resort"). Reported abstention rates are therefore a lower bound under that instruction.
-- **Real identities.** Images and a portion of the audio depict real people. Do not use the
-  benchmark to build or evaluate identification systems targeting the individuals in it, and do
-  not redistribute the assets separately from their upstream licenses.
-- **Demographic coverage** is inherited from CoViP and the four speech corpora; it has
-  not been balanced or audited. Do not read per-group scores as fairness measurements.
-- **English only**, 4 contexts per item, 250 source personas. Difficulty is not annotated along a
-  controlled taxonomy (occlusion, background speech, partial evidence), so per-item difficulty
-  cannot be attributed to a specific perceptual factor.
-- **Scale.** 750 items; a 1-point difference on `Cal` is ~7.5 items and is within judge noise.
-  Do not rank models on sub-point gaps.
-- **License.** ⚠️ Not yet finalized — the assets are derived from upstream corpora (CoViP,
-  VoxMM, MELD, JL-corpus, RAVDESS) whose terms are **not uniform**, and at least one is
-  non-commercial. The redistribution terms must be reconciled against each upstream license
-  before this dataset is made public.
 
 ## Citation
 
