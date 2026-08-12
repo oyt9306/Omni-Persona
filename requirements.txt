@@ -1,0 +1,6 @@
+# Client-side dependencies for running the Omni-Persona v2.2 EVALUATION.
+# The RLVR training skeleton has its own, heavier set: see training/requirements.txt.
+# The vLLM server that hosts the model under test lives in a SEPARATE
+# environment (see scripts/serve_model.sh) — do not install vLLM here.
+requests>=2.31.0
+tqdm>=4.66.0

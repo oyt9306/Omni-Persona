@@ -1,0 +1,16 @@
+# Build output of tools/export_dataset.py — regenerate, do not commit
+/dist/
+
+# Evaluation artifacts (predictions, judge results, scores, logs)
+/results/
+
+# Local benchmark data. In a checkout these are symlinks into the research tree;
+# users download the real thing from the Hugging Face dataset repo instead.
+/data/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.DS_Store
